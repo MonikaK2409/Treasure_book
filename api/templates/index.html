@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreasureBook API</title>
+    <script>
+        // Function to send Node data to Flask API
+        async function sendNode() {
+            const nodeData = {
+                name: document.getElementById('nodeName').value,
+                type: document.getElementById('nodeType').value
+            };
+
+            // Reset the response field before sending
+            document.getElementById('nodeResponse').innerText = "Sending...";
+
+            try {
+                console.log("Sending Node data:", nodeData);  // Debugging log
+
+                const response = await fetch('http://localhost:5000/node', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nodeData)
+                });
+
+                console.log("Response status:", response.status);  // Debugging log
+
+                const result = await response.json();
+                console.log("Response result:", result);  // Debugging log
+
+                // Display the result or error message
+                if (response.ok) {
+                    document.getElementById('nodeResponse').innerText = `Success: ${JSON.stringify(result, null, 2)}`;
+                } else {
+                    document.getElementById('nodeResponse').innerText = `Error: ${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                console.error("Error:", error);  // Debugging log
+                document.getElementById('nodeResponse').innerText = `Error: ${error.message}`;
+            }
+        }
+
+        // Function to send Edge data to Flask API
+        async function sendEdge() {
+            const edgeData = {
+                source: document.getElementById('edgeSource').value,
+                target: document.getElementById('edgeTarget').value,
+                type: document.getElementById('edgeType').value
+            };
+
+            // Reset the response field before sending
+            document.getElementById('edgeResponse').innerText = "Sending...";
+
+            try {
+                console.log("Sending Edge data:", edgeData);  // Debugging log
+
+                const response = await fetch('http://localhost:5000/edge', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(edgeData)
+                });
+
+                console.log("Response status:", response.status);  // Debugging log
+
+                const result = await response.json();
+                console.log("Response result:", result);  // Debugging log
+
+                // Display the result or error message
+                if (response.ok) {
+                    document.getElementById('edgeResponse').innerText = `Success: ${JSON.stringify(result, null, 2)}`;
+                } else {
+                    document.getElementById('edgeResponse').innerText = `Error: ${JSON.stringify(result, null, 2)}`;
+                }
+            } catch (error) {
+                console.error("Error:", error);  // Debugging log
+                document.getElementById('edgeResponse').innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>TreasureBook API</h1>
+
+    <h2>Add Node</h2>
+    <form onsubmit="event.preventDefault(); sendNode();">
+        <label for="nodeName">Node Name:</label><br>
+        <input type="text" id="nodeName" name="nodeName" required><br><br>
+        
+        <label for="nodeType">Node Type (e.g., Treasure, Location, Map):</label><br>
+        <input type="text" id="nodeType" name="nodeType" required><br><br>
+        
+        <button type="submit">Add Node</button>
+    </form>
+
+    <pre id="nodeResponse"></pre> <!-- This will display the success or error message for node -->
+
+    <h2>Add Edge</h2>
+    <form onsubmit="event.preventDefault(); sendEdge();">
+        <label for="edgeSource">Edge Source (Start Node):</label><br>
+        <input type="text" id="edgeSource" name="edgeSource" required><br><br>
+
+        <label for="edgeTarget">Edge Target (End Node):</label><br>
+        <input type="text" id="edgeTarget" name="edgeTarget" required><br><br>
+        
+        <label for="edgeType">Edge Type (e.g., Trail, Hidden-at, Leads-to):</label><br>
+        <input type="text" id="edgeType" name="edgeType" required><br><br>
+        
+        <button type="submit">Add Edge</button>
+    </form>
+
+    <pre id="edgeResponse"></pre> <!-- This will display the success or error message for edge -->
+</body>
+</html>

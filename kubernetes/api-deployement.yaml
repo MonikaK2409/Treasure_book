@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: treasurebook-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: treasurebook-api
+  template:
+    metadata:
+      labels:
+        app: treasurebook-api
+    spec:
+      containers:
+      - name: treasurebook-api
+        image: treasurebook-api
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
