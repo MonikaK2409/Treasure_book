@@ -1,26 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: treasurebook-api
+  name: treasure-api
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: treasurebook-api
+      app: treasure-api
   template:
     metadata:
       labels:
-        app: treasurebook-api
+        app: treasure-api
     spec:
       containers:
-      - name: treasurebook-api
-        image: treasurebook-api
-        ports:
-        - containerPort: 5000
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "200m"
+        - name: treasure-api
+          image: monikak2493/treasure-api:latest  # Replace with your image name
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: treasure-api
+spec:
+  selector:
+    app: treasure-api
+  ports:
+    - port: 5000          # Cluster IP port
+      targetPort: 5000    # The port your container listens on
+      nodePort: 30001     # Exposed port on the node (must be between 30000-32767)
+  type: NodePort          # Change from LoadBalancer to NodePort
+

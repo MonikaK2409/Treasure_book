@@ -10,7 +10,7 @@ services:
 
   flask-api:
     build: .
-    container_name: treasurebook-api
+    container_name: treasure-api
     environment:
       - MONGO_HOST=mongodb  # MongoDB hostname (service name)
     ports:

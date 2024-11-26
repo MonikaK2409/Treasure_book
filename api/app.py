@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 import os
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app = Flask(__name__)
 
 # Enable CORS for all routes
-CORS(app)
+#CORS(app)
 
 # MongoDB connection setup
 mongo_host = os.getenv('MONGO_HOST', 'mongodb')  # MongoDB container hostname
